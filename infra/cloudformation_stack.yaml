@@ -1,0 +1,178 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  FreshBite PoC - QuickSight + Redshift Serverless Demo.
+  Uses an existing S3 bucket for data staging.
+
+Parameters:
+  Environment:
+    Type: String
+    Default: poc
+    AllowedValues: [poc, dev, prod]
+
+  DataBucketName:
+    Type: String
+    Description: Name of your existing S3 bucket containing the mock data
+
+  AdminUsername:
+    Type: String
+    Default: admin
+    Description: Redshift admin username
+
+  AdminUserPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    Description: Redshift admin password (min 8 chars, must include upper, lower, number)
+
+  BaseCapacity:
+    Type: Number
+    Default: 8
+    Description: Redshift Serverless base RPU capacity (8-512, increments of 8)
+    AllowedValues: [8, 16, 32, 64, 128]
+
+Resources:
+
+  # ============================================================
+  # IAM ROLE - Redshift to S3 access
+  # ============================================================
+  RedshiftS3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: redshift.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3DataAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetBucketLocation
+                  - s3:ListBucket
+                Resource:
+                  - !Sub 'arn:aws:s3:::${DataBucketName}'
+                  - !Sub 'arn:aws:s3:::${DataBucketName}/*'
+      Tags:
+        - Key: Project
+          Value: FreshBite-PoC
+
+  # ============================================================
+  # IAM ROLE - QuickSight to Redshift
+  # ============================================================
+  QuickSightServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: quicksight.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: RedshiftAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - redshift-serverless:GetCredentials
+                  - redshift-serverless:GetWorkgroup
+                  - redshift-serverless:GetNamespace
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - redshift-data:ExecuteStatement
+                  - redshift-data:GetStatementResult
+                  - redshift-data:DescribeStatement
+                Resource: '*'
+        - PolicyName: S3ResultsAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub 'arn:aws:s3:::${DataBucketName}'
+                  - !Sub 'arn:aws:s3:::${DataBucketName}/*'
+      Tags:
+        - Key: Project
+          Value: FreshBite-PoC
+
+  # ============================================================
+  # REDSHIFT SERVERLESS - Namespace
+  # ============================================================
+  RedshiftNamespace:
+    Type: AWS::RedshiftServerless::Namespace
+    Properties:
+      NamespaceName: !Sub 'freshbite-${Environment}'
+      AdminUsername: !Ref AdminUsername
+      AdminUserPassword: !Ref AdminUserPassword
+      DbName: freshbite_db
+      DefaultIamRoleArn: !GetAtt RedshiftS3Role.Arn
+      IamRoles:
+        - !GetAtt RedshiftS3Role.Arn
+      LogExports:
+        - userlog
+        - connectionlog
+        - useractivitylog
+      Tags:
+        - Key: Project
+          Value: FreshBite-PoC
+        - Key: Environment
+          Value: !Ref Environment
+
+  # ============================================================
+  # REDSHIFT SERVERLESS - Workgroup
+  # ============================================================
+  RedshiftWorkgroup:
+    Type: AWS::RedshiftServerless::Workgroup
+    DependsOn: RedshiftNamespace
+    Properties:
+      WorkgroupName: !Sub 'freshbite-${Environment}-wg'
+      NamespaceName: !Sub 'freshbite-${Environment}'
+      PubliclyAccessible: true
+      BaseCapacity: !Ref BaseCapacity
+      ConfigParameters:
+        - ParameterKey: search_path
+          ParameterValue: freshbite, public
+        - ParameterKey: enable_case_sensitive_identifier
+          ParameterValue: 'true'
+      Tags:
+        - Key: Project
+          Value: FreshBite-PoC
+        - Key: Environment
+          Value: !Ref Environment
+
+Outputs:
+  DataBucketName:
+    Description: S3 bucket used for mock data
+    Value: !Ref DataBucketName
+
+  RedshiftNamespaceName:
+    Description: Redshift Serverless namespace
+    Value: !Sub 'freshbite-${Environment}'
+
+  RedshiftWorkgroupName:
+    Description: Redshift Serverless workgroup
+    Value: !Sub 'freshbite-${Environment}-wg'
+
+  RedshiftWorkgroupEndpoint:
+    Description: Redshift Serverless endpoint
+    Value: !GetAtt RedshiftWorkgroup.Workgroup.Endpoint.Address
+
+  RedshiftS3RoleArn:
+    Description: IAM role ARN for Redshift COPY commands
+    Value: !GetAtt RedshiftS3Role.Arn
+
+  QuickSightRoleArn:
+    Description: IAM role ARN for QuickSight
+    Value: !GetAtt QuickSightServiceRole.Arn

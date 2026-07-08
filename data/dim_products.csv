@@ -1,0 +1,21 @@
+product_id,category,product_name,unit_price
+P-001,Bowls,Chicken Power Bowl,12.99
+P-002,Bowls,Veggie Buddha Bowl,11.49
+P-003,Bowls,Salmon Poke Bowl,14.99
+P-004,Bowls,Steak Burrito Bowl,13.49
+P-005,Bowls,Tofu Teriyaki Bowl,11.99
+P-006,Wraps,Grilled Chicken Wrap,10.99
+P-007,Wraps,Falafel Wrap,10.49
+P-008,Wraps,BBQ Pulled Pork Wrap,11.99
+P-009,Wraps,Mediterranean Wrap,10.99
+P-010,Salads,Caesar Salad,9.99
+P-011,Salads,Greek Salad,9.49
+P-012,Salads,Asian Sesame Salad,10.49
+P-013,Salads,Harvest Salad,10.99
+P-014,Smoothies,Green Detox Smoothie,7.99
+P-015,Smoothies,Berry Blast Smoothie,7.49
+P-016,Smoothies,Tropical Mango Smoothie,7.99
+P-017,Smoothies,Protein Power Smoothie,8.49
+P-018,Sides,Sweet Potato Fries,4.99
+P-019,Sides,Quinoa Side,4.49
+P-020,Sides,Soup of the Day,5.99

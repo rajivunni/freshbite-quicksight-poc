@@ -1,0 +1,51 @@
+location_id,franchise_id,location_name,city,state,open_date
+LOC-001,FR-001,FreshBite Boston,Boston,MA,2023-01-31
+LOC-002,FR-001,FreshBite Hartford,Hartford,CT,2023-12-30
+LOC-003,FR-001,FreshBite Portland,Portland,ME,2022-05-10
+LOC-004,FR-001,FreshBite Burlington,Burlington,VT,2023-07-18
+LOC-005,FR-001,FreshBite Providence,Providence,RI,2023-02-04
+LOC-006,FR-002,FreshBite Atlanta,Atlanta,GA,2022-12-31
+LOC-007,FR-002,FreshBite Charlotte,Charlotte,NC,2022-11-10
+LOC-008,FR-002,FreshBite Nashville,Nashville,TN,2020-05-01
+LOC-009,FR-002,FreshBite Jacksonville,Jacksonville,FL,2021-04-11
+LOC-010,FR-002,FreshBite Richmond,Richmond,VA,2023-05-23
+LOC-011,FR-003,FreshBite New York,New York,NY,2020-11-26
+LOC-012,FR-003,FreshBite Philadelphia,Philadelphia,PA,2024-01-22
+LOC-013,FR-003,FreshBite Baltimore,Baltimore,MD,2020-03-28
+LOC-014,FR-003,FreshBite Newark,Newark,NJ,2023-10-28
+LOC-015,FR-003,FreshBite Washington,Washington,DC,2023-01-28
+LOC-016,FR-004,FreshBite Los Angeles,Los Angeles,CA,2022-05-21
+LOC-017,FR-004,FreshBite San Francisco,San Francisco,CA,2020-05-10
+LOC-018,FR-004,FreshBite Seattle,Seattle,WA,2023-08-25
+LOC-019,FR-004,FreshBite Portland,Portland,OR,2022-02-08
+LOC-020,FR-004,FreshBite San Diego,San Diego,CA,2020-12-09
+LOC-021,FR-005,FreshBite Chicago,Chicago,IL,2023-12-08
+LOC-022,FR-005,FreshBite Detroit,Detroit,MI,2022-03-16
+LOC-023,FR-005,FreshBite Indianapolis,Indianapolis,IN,2021-01-20
+LOC-024,FR-005,FreshBite Columbus,Columbus,OH,2023-04-30
+LOC-025,FR-005,FreshBite Milwaukee,Milwaukee,WI,2022-08-13
+LOC-026,FR-006,FreshBite Miami,Miami,FL,2020-10-03
+LOC-027,FR-006,FreshBite Tampa,Tampa,FL,2023-03-30
+LOC-028,FR-006,FreshBite Orlando,Orlando,FL,2021-04-04
+LOC-029,FR-006,FreshBite Fort Lauderdale,Fort Lauderdale,FL,2023-08-30
+LOC-030,FR-006,FreshBite West Palm Beach,West Palm Beach,FL,2020-01-22
+LOC-031,FR-007,FreshBite Virginia Beach,Virginia Beach,VA,2020-09-09
+LOC-032,FR-007,FreshBite Savannah,Savannah,GA,2022-01-17
+LOC-033,FR-007,FreshBite Charleston,Charleston,SC,2022-05-06
+LOC-034,FR-007,FreshBite Wilmington,Wilmington,NC,2021-04-19
+LOC-035,FR-007,FreshBite Myrtle Beach,Myrtle Beach,SC,2022-12-18
+LOC-036,FR-008,FreshBite Denver,Denver,CO,2021-05-25
+LOC-037,FR-008,FreshBite Salt Lake City,Salt Lake City,UT,2024-02-08
+LOC-038,FR-008,FreshBite Boise,Boise,ID,2021-11-30
+LOC-039,FR-008,FreshBite Albuquerque,Albuquerque,NM,2022-09-02
+LOC-040,FR-008,FreshBite Colorado Springs,Colorado Springs,CO,2020-07-08
+LOC-041,FR-009,FreshBite Phoenix,Phoenix,AZ,2022-08-15
+LOC-042,FR-009,FreshBite Tucson,Tucson,AZ,2021-11-17
+LOC-043,FR-009,FreshBite Las Vegas,Las Vegas,NV,2022-08-15
+LOC-044,FR-009,FreshBite Sacramento,Sacramento,CA,2021-07-16
+LOC-045,FR-009,FreshBite Fresno,Fresno,CA,2023-06-21
+LOC-046,FR-010,FreshBite Cleveland,Cleveland,OH,2022-04-11
+LOC-047,FR-010,FreshBite Minneapolis,Minneapolis,MN,2023-02-28
+LOC-048,FR-010,FreshBite Madison,Madison,WI,2021-10-08
+LOC-049,FR-010,FreshBite Grand Rapids,Grand Rapids,MI,2020-01-21
+LOC-050,FR-010,FreshBite Buffalo,Buffalo,NY,2022-04-20
