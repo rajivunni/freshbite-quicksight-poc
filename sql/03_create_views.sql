@@ -47,6 +47,9 @@ JOIN freshbite.dim_locations l ON fb.location_id = l.location_id
 JOIN freshbite.dim_franchises f ON l.franchise_id = f.franchise_id;
 
 -- Location KPI summary (pre-aggregated)
+-- Legacy aliases below are not validated business KPI definitions:
+-- avg_daily_revenue averages product-day rows, not location daily totals.
+-- avg_ticket_size is revenue per unit, not per transaction (no order IDs exist).
 CREATE OR REPLACE VIEW freshbite.vw_location_kpis AS
 SELECT
     l.location_id,
@@ -70,15 +73,16 @@ JOIN freshbite.dim_franchises f ON l.franchise_id = f.franchise_id
 GROUP BY 1, 2, 3, 4, 5, 6, 7, 8;
 
 -- ============================================================
--- Row-Level Security Setup (QuickSight Dataset-Level)
+-- Illustrative Row-Level Security Setup (not deployed or enforced here)
 -- ============================================================
--- To enable RLS in QuickSight:
--- 1. Create a dataset from this query:
---      SELECT owner_email AS UserName, franchise_id
+-- Manual evaluation requires actual QuickSight identities and service-side tests.
+-- The following owner-only query is a starting point, not a complete policy:
+--      SELECT user_email AS UserName, franchise_id
 --      FROM freshbite.rls_user_permissions
 --      WHERE franchise_id != 'ALL';
--- 2. Attach it as the RLS rules dataset on vw_sales_dashboard
--- 3. Map franchise_id column for row-level filtering
+-- Configure an RLS rules dataset manually and verify allowed and denied rows.
+-- Apply the intended controls to every exposed dataset, including feedback.
 --
--- Corporate admin (admin@freshbite-corp.com) has franchise_id = 'ALL'
--- and should be excluded from RLS (sees everything by default).
+-- ALL is only a fixture marker, not an implemented wildcard permission.
+-- This query excludes that marker and does not define corporate admin access.
+-- No native Redshift policies or location-manager permissions are implemented.
