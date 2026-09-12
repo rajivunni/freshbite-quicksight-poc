@@ -1,5 +1,15 @@
 # Environment
 .env
+.env.*
+!.env.example
+.aws/
+credentials
+localconfig*
+*.pem
+*.key
+*.p12
+*.pfx
+generated-data/
 *.tfstate
 *.tfstate.backup
 .terraform/
