@@ -1,5 +1,5 @@
 """
-FreshBite PoC — Mock Data Generator
+FreshBite PoC: Mock Data Generator
 
 Generates a star-schema dataset for a multi-tenant QSR franchise chain.
 Output: 6 CSV files ready to load into Amazon Redshift.
@@ -34,11 +34,11 @@ def generate_mock_data(output_dir: str = "./data"):
             'Lisa Garcia', "Michael O'Brien"
         ],
         'owner_email': [
-            'sarah.johnson@freshbite-north.com', 'marcus.chen@freshbite-south.com',
-            'priya.patel@freshbite-east.com', 'david.rodriguez@freshbite-west.com',
-            'emma.thompson@freshbite-central.com', 'james.wilson@freshbite-metro.com',
-            'aisha.mohammed@freshbite-coastal.com', 'robert.kim@freshbite-mountain.com',
-            'lisa.garcia@freshbite-valley.com', 'michael.obrien@freshbite-lakes.com'
+            'sarah.johnson@freshbite-north.example.com', 'marcus.chen@freshbite-south.example.com',
+            'priya.patel@freshbite-east.example.com', 'david.rodriguez@freshbite-west.example.com',
+            'emma.thompson@freshbite-central.example.com', 'james.wilson@freshbite-metro.example.com',
+            'aisha.mohammed@freshbite-coastal.example.com', 'robert.kim@freshbite-mountain.example.com',
+            'lisa.garcia@freshbite-valley.example.com', 'michael.obrien@freshbite-lakes.example.com'
         ],
         'region': ['Northeast', 'Southeast', 'East', 'West', 'Central',
                    'Metro', 'Coastal', 'Mountain', 'Valley', 'Great Lakes']
@@ -144,7 +144,7 @@ def generate_mock_data(output_dir: str = "./data"):
     print(f"  Feedback records: {len(fact_feedback):,}")
 
     # --- RLS Permissions ---
-    rls_permissions = [{'user_email': 'admin@freshbite-corp.com', 'franchise_id': 'ALL'}]
+    rls_permissions = [{'user_email': 'admin@freshbite-corp.example.com', 'franchise_id': 'ALL'}]
     for _, row in franchises.iterrows():
         rls_permissions.append({'user_email': row['owner_email'], 'franchise_id': row['franchise_id']})
     rls_df = pd.DataFrame(rls_permissions)
