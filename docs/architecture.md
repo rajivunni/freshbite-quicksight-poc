@@ -1,57 +1,38 @@
-# Architecture
+# Architecture and implementation status
 
-## System Overview
+## Data path
 
-```
-┌──────────────┐     ┌─────────────────────────┐     ┌──────────────────────┐
-│              │     │                         │     │                      │
-│   Amazon S3  │────▶│  Redshift Serverless    │────▶│  Amazon QuickSight   │
-│  (CSV Data)  │     │  (Star Schema + Views)  │     │  (BI Dashboard)      │
-│              │     │                         │     │                      │
-└──────────────┘     └─────────────────────────┘     └──────────────────────┘
-                              │                               │
-                              ▼                               ▼
-                     ┌─────────────────┐            ┌─────────────────┐
-                     │  RLS Policies   │            │  Row-Level      │
-                     │  (Permissions   │            │  Security       │
-                     │   Table)        │            │  (Per-User)     │
-                     └─────────────────┘            └─────────────────┘
-```
+~~~
+Python generator -> six synthetic CSV files -> existing S3 bucket
+                                                   |
+                                                   v
+                                   Redshift Serverless tables
+                                                   |
+                                                   v
+                                     denormalized SQL views
+                                                   |
+                                                   v
+                             QuickSight, configured manually
+~~~
 
-## Components
+## Implemented source
 
-| Layer | Service | Purpose |
-|-------|---------|---------|
-| Storage | Amazon S3 | Staging area for CSV data files |
-| Compute | Redshift Serverless | Star schema warehouse with analytical views |
-| BI | Amazon QuickSight | Interactive dashboards with RLS |
-| IaC | CloudFormation | Automated infrastructure deployment |
+The CloudFormation template defines a Redshift Serverless namespace/workgroup and two IAM roles. SQL defines dimension, fact and illustrative permission tables, plus sales, feedback and location-summary views.
 
-## Data Flow
+The data generator uses a fixed seed to produce January through June 2026 fixtures. All names and email addresses are synthetic.
 
-1. **Generate** → Python script creates mock data (6 CSVs in star schema)
-2. **Stage** → Upload CSVs to S3 bucket
-3. **Load** → Redshift COPY commands ingest from S3
-4. **Transform** → Denormalized views pre-join dimensions + facts
-5. **Visualize** → QuickSight connects to views via Direct Query
-6. **Secure** → RLS maps user emails to franchise IDs
+## Manual components
 
-## Security Model
+QuickSight connectivity, datasets, analyses, dashboards, identities and RLS configuration are not deployed by this repository. There is no included dashboard export or screenshot proving those settings.
 
-Row-Level Security is implemented at two levels:
+The permissions table is data, not an active access policy. Its `ALL` marker does not grant access by itself. The example SQL alias must be mapped to real QuickSight identities before any RLS evaluation. The owner-only example excludes the admin marker and does not define corporate access.
 
-1. **Redshift Native RLS** (optional) — policies on base tables
-2. **QuickSight Dataset RLS** (recommended for this PoC) — rules dataset maps users to allowed franchise_ids
+Native Redshift RLS, location-level manager permissions, identity provisioning and tenant-isolation tests against a live service are not implemented.
 
-The permissions table (`rls_user_permissions`) drives both approaches:
-- `admin@freshbite-corp.com` → `ALL` (corporate view)
-- `sarah.johnson@freshbite-north.com` → `FR-001` (single franchise)
+## Analytical limits
 
-## Scaling Considerations
+The sales grain is date, location and product. It is not a transaction ledger. The location view's legacy `avg_daily_revenue` field averages product-day rows, while `avg_ticket_size` divides revenue by units. These aliases need correction before use as business KPIs.
 
-For production deployments:
-- Move from CSV/COPY to streaming ingestion (Kinesis → Redshift)
-- Enable SPICE in QuickSight for sub-second dashboard loads
-- Add location-level RLS for individual store managers
-- Implement Redshift materialized views for complex aggregations
-- Add CloudWatch alarms for RPU utilization
+## Deployment and security status
+
+Only offline source/data checks are included. AWS provisioning, QuickSight connectivity and RLS behavior have not been verified as part of this publication cleanup. Read [SECURITY.md](../SECURITY.md) before any AWS evaluation.
