@@ -1,11 +1,11 @@
 franchise_id,franchise_name,owner_name,owner_email,region
-FR-001,FreshBite North,Sarah Johnson,sarah.johnson@freshbite-north.com,Northeast
-FR-002,FreshBite South,Marcus Chen,marcus.chen@freshbite-south.com,Southeast
-FR-003,FreshBite East,Priya Patel,priya.patel@freshbite-east.com,East
-FR-004,FreshBite West,David Rodriguez,david.rodriguez@freshbite-west.com,West
-FR-005,FreshBite Central,Emma Thompson,emma.thompson@freshbite-central.com,Central
-FR-006,FreshBite Metro,James Wilson,james.wilson@freshbite-metro.com,Metro
-FR-007,FreshBite Coastal,Aisha Mohammed,aisha.mohammed@freshbite-coastal.com,Coastal
-FR-008,FreshBite Mountain,Robert Kim,robert.kim@freshbite-mountain.com,Mountain
-FR-009,FreshBite Valley,Lisa Garcia,lisa.garcia@freshbite-valley.com,Valley
-FR-010,FreshBite Lakes,Michael O'Brien,michael.obrien@freshbite-lakes.com,Great Lakes
+FR-001,FreshBite North,Sarah Johnson,sarah.johnson@freshbite-north.example.com,Northeast
+FR-002,FreshBite South,Marcus Chen,marcus.chen@freshbite-south.example.com,Southeast
+FR-003,FreshBite East,Priya Patel,priya.patel@freshbite-east.example.com,East
+FR-004,FreshBite West,David Rodriguez,david.rodriguez@freshbite-west.example.com,West
+FR-005,FreshBite Central,Emma Thompson,emma.thompson@freshbite-central.example.com,Central
+FR-006,FreshBite Metro,James Wilson,james.wilson@freshbite-metro.example.com,Metro
+FR-007,FreshBite Coastal,Aisha Mohammed,aisha.mohammed@freshbite-coastal.example.com,Coastal
+FR-008,FreshBite Mountain,Robert Kim,robert.kim@freshbite-mountain.example.com,Mountain
+FR-009,FreshBite Valley,Lisa Garcia,lisa.garcia@freshbite-valley.example.com,Valley
+FR-010,FreshBite Lakes,Michael O'Brien,michael.obrien@freshbite-lakes.example.com,Great Lakes
